@@ -4,7 +4,17 @@ import pkg from "../package.json"
 import {invoke} from "@tauri-apps/api/core";
 import masonCodeIcon from './assets/icons/mason-code-icon.png'
 
-import {writeTextFile, readTextFile, open, mkdir, exists, readDir, readFile, remove, copyFile, } from "@tauri-apps/plugin-fs";
+import {
+    writeTextFile,
+    readTextFile,
+    open,
+    mkdir,
+    exists,
+    readDir,
+    readFile,
+    remove,
+    copyFile,
+} from "@tauri-apps/plugin-fs";
 
 import {appDataDir, basename, join} from "@tauri-apps/api/path";
 import {useEffect, useState} from "react";
@@ -13,6 +23,7 @@ import threeDots from "./assets/icons/three-dots-icon.png"
 import xIcon from "./assets/icons/x-icon.png"
 import appIcon from "./assets/codeBoardIcon.png"
 import backArrow from "./assets/icons/back-arrow-icon.png"
+import devStashIcon from "./assets/icons/dev-stash-icon.png"
 
 function App() {
 
@@ -21,8 +32,6 @@ function App() {
     const [code, setCode] = useState("");
     const [fileName, setFileName] = useState("");
     const [allFiles, setAllFiles] = useState([])
-    const [currentPath, setCurrentPath] = useState(null);
-    const [entries, setEntries] = useState([]);
     const [dir, setDir] = useState(null);
     const [openFolders, setOpenFolders] = useState({});
     const [folderName, setFolderName] = useState("");
@@ -32,7 +41,6 @@ function App() {
     const [fileExtension, setFileExtension] = useState('');
     const [view, setView] = useState('code');
     const [backedUpFiles, setBackedUpFiles] = useState([])
-    const [toggleOptions, setToggleOptions] = useState(false)
 
     const extensions = [
         ".txt", ".md", ".json", ".yaml", ".yml", ".toml", ".js", ".ts", ".jsx", ".tsx",
@@ -103,18 +111,28 @@ function App() {
         ".zig": "⚡"
     };
 
+    // Retore a file that's been sent to the backup folder
     async function restore(file) {
         const baseDir = await ensureAppDir();
+        // Grab the file name from the path
         const fileName = file.path.split("\\").pop();
+        // Define the destination path
         const destPath = await join(baseDir, fileName);
 
+        // Define the backup folder's path
         const backUpDir = await join(baseDir, "backup");
+        // Get the file path from the backup folder
         const backUpFilePath = await join(backUpDir, fileName);
-        console.log("backUpFilePath", backUpFilePath)
 
+        // Copy the file from the backup folder to the destination path
         await copyFile(backUpFilePath, destPath);
+
+        // Remove the file from the backup folder
         await remove(backUpFilePath);
+
+        // Refresh the directory listing
         await listFoldersAndFiles()
+        await listBackedUpFiles()
     }
 
     function getFileIcon(fileName) {
@@ -142,6 +160,7 @@ function App() {
         const response = await invoke("greet", {name: "Mason"});
         console.log("Response from Rust:", response);
     }
+
 
     async function listFoldersAndFiles() {
         const dir = await ensureAppDir();
@@ -184,9 +203,8 @@ function App() {
     }
 
 
-    // Saving new code blocks
+    // Saving new code
     async function saveCode() {
-        console.log('saveToFolder is: ', folderToSaveTo)
 
         const dir = await ensureAppDir();
 
@@ -200,8 +218,14 @@ function App() {
         }
 
         const filePath = await join(await determineSave(), `${fileName}${fileExtension}`);
+
         await writeTextFile(filePath, String(code));
 
+        // Clear the textarea
+        setCode("");
+
+        // Clear the fileName
+        setFileName("");
         await listFoldersAndFiles()
     }
 
@@ -265,6 +289,7 @@ function App() {
         const allFiles = await readAllFilesRecursive(dir);
         const fileToLoad = allFiles.find(f => f.name === fileName);
         setCode(fileToLoad.contents);
+        setFileName(fileToLoad.name);
     }
 
     async function loadAllFiles() {
@@ -278,21 +303,22 @@ function App() {
     }
 
     async function removeFolder(path) {
-    await remove(path, {recursive: true});
-    await listFoldersAndFiles();
+        await remove(path, {recursive: true});
+        await listFoldersAndFiles();
     }
 
     async function removeFile(path) {
         setBackedUpFiles((prev) =>
             prev.filter((file) => file.path !== path)
         );
+
         // Write file to back-up folder
         const dir = await ensureAppDir();
         const backupDir = await join(dir, "backup");
 
         // If the back-up folder doesn't exist, create it'
         if (!(await exists(backupDir))) {
-            await mkdir(backupDir, { recursive: true });
+            await mkdir(backupDir, {recursive: true});
         }
 
         if (path.isDirectory) {
@@ -308,7 +334,7 @@ function App() {
 
         // Remove original
         await remove(path);
-
+        await showBackedUpFiles()
         await listFoldersAndFiles();
         return "File removed";
     }
@@ -326,7 +352,16 @@ function App() {
         }));
     }
 
-    async function showBackedUpFiles(){
+    async function showBackedUpFiles() {
+        const dir = await ensureAppDir();
+        const backupDir = await join(dir, "backup");
+        const files = await readAllFilesRecursive(backupDir);
+        setBackedUpFiles(files)
+        console.log("backed up files:", files)
+        // return files;
+    }
+
+    async function listBackedUpFiles() {
         const dir = await ensureAppDir();
         const backupDir = await join(dir, "backup");
         const files = await readAllFilesRecursive(backupDir);
@@ -348,28 +383,36 @@ function App() {
     }, []);
 
 
-
-
     return (
         <div className="App">
             <div style={{height: "100vh", display: 'flex'}}>
                 <div className={'menu'}>
                     <div>
                         <div style={{display: 'flex', alignItems: 'center', gap: '.5rem', marginBottom: '1rem'}}>
-                            <img src={appIcon} width={'30px'}/>
-                            <h3 style={{margin: '0', fontWeight: '400'}}>DevStash</h3>
+                            <img src={devStashIcon} width={'50px'}/>
+                            <h1 style={{margin: '0', fontWeight: '400'}}>DevStash</h1>
                         </div>
+
+                        <h3 className={'text-left'} style={{fontWeight: 300}}>Your personal code vault</h3>
 
                         <div>
 
                             <div className="inputWithButton" style={{marginBottom: '.5rem'}}>
                                 <input
+                                    className={'dark'}
+                                    style={{border: '1px solid rgba(255,255,255,.2)'}}
                                     type="text"
                                     value={folderName}
                                     placeholder="Folder name"
                                     onChange={(e) => setFolderName(e.target.value)}
                                 />
-                                <button onClick={createFolder}>Add</button>
+                                <button style={{
+                                    background: '#141414',
+                                    color: 'white',
+                                    borderLeft: '0',
+                                    border: '1px solid rgba(255,255,255,.2)'
+                                }} className={'dark'} onClick={createFolder}>Add
+                                </button>
                             </div>
 
                             <div className={'scrollable'} style={{textAlign: "left", maxHeight: "70vh", zIndex: "0"}}>
@@ -442,17 +485,17 @@ function App() {
                                             </>
                                         ) : (
                                             <div
+                                                onClick={() => loadFile(item.name)}
                                                 className="fileListing"
                                                 style={{
                                                     position: "relative",
                                                     display: "flex",
                                                     justifyContent: "space-between",
                                                     alignItems: "center",
-
                                                 }}
                                             >
-                                                <p onClick={() => loadFile(item.name)}
-                                                style={{paddingRight: '.75rem', textAlign: 'left'}}
+                                                <p
+                                                    style={{paddingRight: '.75rem', textAlign: 'left'}}
                                                 >
                                                     {getFileIcon(item.name)} {item.name}
                                                 </p>
@@ -479,11 +522,22 @@ function App() {
                         </div>
                     </div>
 
-                    <div style={{justifyContent: 'left', display: 'flex', gap: '1rem', flexDirection: 'column', textAlign: 'left'}}>
+                    <div style={{
+                        justifyContent: 'left',
+                        display: 'flex',
+                        gap: '1rem',
+                        flexDirection: 'column',
+                        textAlign: 'left'
+                    }}>
                         <p onClick={() => {
                             showBackedUpFiles()
                             setView('recover')
-                        }} style={{textAlign: 'left', color: 'rgba(255,255,255,.5)', fontSize: '12px', cursor: 'pointer'}}>Recover Deleted Files</p>
+                        }} style={{
+                            textAlign: 'left',
+                            color: 'rgba(255,255,255,.5)',
+                            fontSize: '12px',
+                            cursor: 'pointer'
+                        }}>Recover Deleted Files</p>
 
                         <div style={{display: 'flex', justifyContent: 'start', alignItems: 'center', gap: '.5rem'}}>
                             <img style={{opacity: '20%'}} src={masonCodeIcon} width={'40px'}/>
@@ -509,46 +563,50 @@ function App() {
                              style={{height: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem'}}>
 
                             <div className={'span-2-col'} style={{color: 'white', textAlign: 'left'}}>
-                                <h4 className={'text-left'}>Name your code</h4>
-                                <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                                    <div className={'inputWithDropdown'}>
-                                        <input className={'input'} value={fileName}
-                                               onChange={(e) => {
-                                                   console.log(e.target.value)
-                                                   setFileName(e.target.value)
-                                               }}
-                                               placeholder={'Name'}/>
+                                <p className={'text-left mb-quarter'}>Name your code</p>
+                                <div className={'inputWithDropdown mb-1'}>
+                                    <input className={'input'} value={fileName}
+                                           onChange={(e) => {
+                                               console.log(e.target.value)
+                                               setFileName(e.target.value)
+                                           }}
+                                           placeholder={'Name'}/>
 
-                                        <select className={'select'}
-                                                value={fileExtension}
-                                                onChange={(e) => {
-                                                    console.log(e.target.value)
-                                                    setFileExtension(e.target.value)
-                                                }}
-
-                                        >
-                                            <option value="">.txt</option>
-                                            {extensions.sort().map(ext => (
-                                                <option key={ext}>{ext}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <select className={'select'} value={folderToSaveTo}
-                                            onChange={(e) => setFolderToSaveTo(e.target.value)}>
-                                        <option value="">Save to root</option>
-                                        {allDirectories?.map((folder, index) => (
-                                            <option style={{marginRight: '.5rem'}} value={folder.name}
-                                                    key={index}>{folder.name}  </option>
+                                    <select className={'select'}
+                                            value={fileExtension}
+                                            onChange={(e) => {
+                                                console.log(e.target.value)
+                                                setFileExtension(e.target.value)
+                                            }}
+                                    >
+                                        <option value="">.txt</option>
+                                        {extensions.sort().map(ext => (
+                                            <option key={ext}>{ext}</option>
                                         ))}
-                                    </select>
 
+                                    </select>
                                 </div>
+                                <p className={'text-white text-left mb-quarter'}>Location</p>
+                                <select className={'text-white select text-left dark'}
+                                        style={{border: '1px solid rgba(255,255,255,.2)'}}
+                                        value={folderToSaveTo}
+                                        onChange={(e) => setFolderToSaveTo(e.target.value)}>
+                                    <option className={'text-left'} value="">Save to root</option>
+                                    {allDirectories?.map((folder, index) => (
+                                        <option style={{marginRight: '.5rem'}} className={'text-left'}
+                                                value={folder.name}
+                                                key={index}>{folder.name}  </option>
+                                    ))}
+                                </select>
 
 
                             </div>
                             <div style={{justifyContent: 'flex-start', display: 'flex', gap: '1rem'}}>
                                 <button className={'button'} onClick={saveCode}>Save</button>
                                 {/*<button onClick={loadAllFiles}>Refresh</button>*/}
+                            </div>
+                            <div>
+
                             </div>
 
                         </div>
@@ -560,16 +618,24 @@ function App() {
 
                 {view === 'recover' &&
                     <div className={'body'}>
-                        <div style={{textAlign: 'left', color: 'white', display: 'flex', gap: '.5rem', alignItems: 'center', cursor: 'pointer'}} onClick={() => setView('code')}><img src={backArrow} width={"15px"}/><p style={{fontSize: '1rem'}}>Back</p></div>
+                        <div style={{
+                            textAlign: 'left',
+                            color: 'white',
+                            display: 'flex',
+                            gap: '.5rem',
+                            alignItems: 'center',
+                            cursor: 'pointer'
+                        }} onClick={() => setView('code')}><img src={backArrow} width={"15px"}/><p
+                            style={{fontSize: '1rem'}}>Back</p></div>
                         <div className={'scrollable'} style={{marginTop: '1rem'}}>
                             {backedUpFiles.length > 0 ? (
                                 backedUpFiles.map((file, index) => (
                                     <div
                                         className="fileListing"
                                         key={index}
-                                        style={{ display: "flex", gap: "1rem", alignItems: "center" }}
+                                        style={{display: "flex", gap: "1rem", alignItems: "center"}}
                                     >
-                                        <p style={{ color: "white" }}>{file.name}</p>
+                                        <p style={{color: "white"}}>{file.name}</p>
 
                                         <div className="flex gap1 text-white child-hover-underline">
                                             <p onClick={() => restore(file)}>Restore</p>

@@ -9,7 +9,7 @@
 .App * {
   text-align: center;
   font-family:
-          /*"Helvetica",*/
+          "Helvetica",
           "Segoe UI",
           Roboto,
           Arial,
@@ -40,7 +40,7 @@
 }
 
 .menu {
-  background: #09121d;
+  background: #191818;
   color: white;
   width:300px;
   padding: 1rem;
@@ -50,7 +50,9 @@
 }
 
 .body {
-  background: linear-gradient(45deg, #0f1b2b, #c89681);
+
+
+  background: linear-gradient(to bottom, #404040, #333333);
   flex: 1;
   padding: 1rem;
   /*width: 90vw;*/
@@ -93,7 +95,7 @@ text-align: left;
 }
 
 .fileListing:hover {
-  background: rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, .04);
 }
 
 /*input {*/
@@ -109,9 +111,9 @@ button {
 
 .button {
   border: 0;
-  width: 100px;
+  width: 200px;
   cursor: pointer;
-  background: #e6916d;
+  background: #ff8906;
   /*border-color: #e6916d;*/
   color: #09121d;
   transition: background .15s ease-in-out, color .15s ease-in-out;
@@ -150,6 +152,11 @@ background: white;
   grid-column: span 2;
 }
 
+.dark {
+  background: #222122;
+
+}
+
 .inputWithButton,
 .inputWithDropdown {
   display: flex;
@@ -175,25 +182,32 @@ background: white;
   text-align: left;
 }
 
+
+
 .select {
   /*min-width: 0;*/
+  /*justify-content: start;*/
+  align-items: flex-start;
   border: 0;
   border-radius: .25rem;
   padding: .5rem;
+  display: flex;
+  width: 100%;
 }
 
 .inputWithButton button,
 .inputWithDropdown select {
-  /*flex: .5;*/
+  flex: .2;
   white-space: nowrap;
   border-radius: 0 .25rem .25rem 0;
   border: 0;
   transition: background .15s ease-in-out;
+  background: #d5d5d5;
 }
 
 .inputWithButton button:hover,
 .inputWithDropdown select:hover {
-  background: #c89681;
+  background: #ff8906;
 }
 
 h4 {
@@ -220,7 +234,7 @@ textarea::placeholder {
 }
 
 textarea:focus {
-  outline: none;
+  outline: rgba(255,255,255,.5) solid 2px;
 }
 
 /* Apply to a specific scrollable area */
@@ -305,6 +319,26 @@ textarea:focus {
   text-decoration: underline;
 }
 
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-quarter {
+  margin-bottom: .25rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
 .text-left {
   text-align: left;
+}
+
+.p-small {
+  font-size: 10px;
+}
+
+.p-med {
+  font-size: 15px;
 }
