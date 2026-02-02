@@ -1,344 +1,326 @@
 @font-face {
-  font-family: "Poppins";
-  src: url("./assets/fonts/poppins-regular-webfont.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
+    font-family: "Poppins";
+    src: url("./assets/fonts/poppins-regular-webfont.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
 }
 
 .App,
 .App * {
-  text-align: center;
-  font-family:
-          "Helvetica",
-          "Segoe UI",
-          Roboto,
-          Arial,
-          sans-serif;
-
+    text-align: center;
+    font-family: "Helvetica",
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.menu {
-  background: #191818;
-  color: white;
-  width:300px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.body {
-
-
-  background: linear-gradient(to bottom, #404040, #333333);
-  flex: 1;
-  padding: 1rem;
-  /*width: 90vw;*/
-  display: flex;
-  flex-direction: column;
-}
-
-.body > *:not(:last-child) {
-  /*margin-bottom: 1rem;*/
-}
-
-.code-input {
-  height: auto;
-text-align: left;
-  font-family: monospace;
-  font-size: 14px;
-  padding: 1rem;
-  background: rgba(0,0,0,.2);
-  color: #eaeaea;
-  border: 1px solid rgba(255,255,255,.3);
-  border-radius: 6px;
-  resize: vertical;
-  /*flex: 1;*/
-}
-
-
-.fileListing
-{
-  padding-inline: 1rem;
-  padding-block: .5rem;
-
-  border-radius: 5rem;
-  cursor: pointer;
-  /*margin-bottom: .5rem;*/
-  transition: background .15s ease-in-out;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-}
-
-.fileListing:hover {
-  background: rgba(255, 255, 255, .04);
-}
-
-/*input {*/
-/*  border-radius: .5rem;*/
-/*  padding: .5rem;*/
-/*  border: 0;*/
-/*}*/
-
-button {
-  border-radius: .5rem;
-  padding: .5rem;
-}
-
-.button {
-  border: 0;
-  width: 200px;
-  cursor: pointer;
-  background: #ff8906;
-  /*border-color: #e6916d;*/
-  color: #09121d;
-  transition: background .15s ease-in-out, color .15s ease-in-out;
-}
-
-.button:hover {
-background: white;
-  color: #09121d;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.menu {
+    background: #191818;
+    color: white;
+    width: 300px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.body {
+    background: linear-gradient(to bottom, #404040, #333333);
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.body > *:not(:last-child) {
+    /*margin-bottom: 1rem;*/
+}
+
+.code-input {
+    height: auto;
+    text-align: left;
+    font-family: monospace;
+    font-size: 14px;
+    padding: 1rem;
+    background: rgba(0, 0, 0, .2);
+    color: #eaeaea;
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 6px;
+    resize: vertical;
+    /*flex: 1;*/
+}
+
+.flex {
+    display: flex;
+}
+
+/*File Listing Classes ---------------*/
+
+.fileListing {
+    padding-inline: 1rem;
+    padding-block: .5rem;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: background .15s ease-in-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.fileListing:hover {
+    background: rgba(255, 255, 255, .04);
+
+}
+
+.fileListing:hover .x-icon {
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/*Button Classes ----------------*/
+
+button {
+    border-radius: .5rem;
+    padding: .5rem;
+}
+
+.button {
+    border: 0;
+    width: 200px;
+    cursor: pointer;
+    background: #ff8906;
+    /*border-color: #e6916d;*/
+    color: #09121d;
+    transition: background .15s ease-in-out, color .15s ease-in-out;
+}
+
+.button:hover {
+    background: white;
+    color: #09121d;
+}
+
+/*-------------------------------*/
 
 .grid-2-col {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 100%;
-  /*height: auto;*/
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    /*height: auto;*/
 }
 
-/*.grid-2-col > * {*/
-/*  flex: 1*/
-/*}*/
-
 .span-2-col {
-  grid-column: span 2;
+    grid-column: span 2;
 }
 
 .dark {
-  background: #222122;
+    background: #222122;
 
 }
 
+/*Input and Button/Dropdown Classes*/
+
 .inputWithButton,
 .inputWithDropdown {
-  display: flex;
-  width: 100%;
+    display: flex;
+    width: 100%;
 }
 
 .inputWithButton input,
 .inputWithDropdown input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  border-radius: .25rem 0 0 .25rem;
-  padding: .5rem;
-  text-align: left
-}
-
-.input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  border-radius: .25rem;
-  padding: .5rem;
-  text-align: left;
-}
-
-
-
-.select {
-  /*min-width: 0;*/
-  /*justify-content: start;*/
-  align-items: flex-start;
-  border: 0;
-  border-radius: .25rem;
-  padding: .5rem;
-  display: flex;
-  width: 100%;
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    border-radius: .25rem 0 0 .25rem;
+    padding: .5rem;
+    text-align: left
 }
 
 .inputWithButton button,
 .inputWithDropdown select {
-  flex: .2;
-  white-space: nowrap;
-  border-radius: 0 .25rem .25rem 0;
-  border: 0;
-  transition: background .15s ease-in-out;
-  background: #d5d5d5;
+    flex: .2;
+    white-space: nowrap;
+    border-radius: 0 .25rem .25rem 0;
+    border: 0;
+    transition: background .15s ease-in-out;
+    background: #d5d5d5;
 }
 
 .inputWithButton button:hover,
 .inputWithDropdown select:hover {
-  background: #ff8906;
+    background: #ff8906;
 }
 
-h4 {
-  margin-top: 0;
-  margin-bottom: 1rem;
+.input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    border-radius: .25rem;
+    padding: .5rem;
+    text-align: left;
 }
 
-p {
-  margin: 0;
+.select {
+    align-items: flex-start;
+    border: 0;
+    border-radius: .25rem;
+    padding: .5rem;
+    display: flex;
+    width: 100%;
 }
 
 .gap1 {
-  gap: 1rem;
+    gap: 1rem;
 }
+
+/*Textarea ----------------------*/
 
 textarea {
-outline: none;
-
+    outline: none;
 }
 
-
 textarea::placeholder {
-  color: rgba(255,255,255,.5);
+    color: rgba(255, 255, 255, .5);
 }
 
 textarea:focus {
-  outline: rgba(255,255,255,.5) solid 2px;
+    outline: rgba(255, 255, 255, .8) solid 1px;
+    box-shadow: 0 0 1rem 2px rgba(0, 0, 0, .5);
 }
 
-/* Apply to a specific scrollable area */
+/*Scrollable Classes ------------*/
+
 .scrollable {
-  overflow: auto;
+    overflow: auto;
 }
 
 /* Width */
 .scrollable::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+    width: 8px;
+    height: 8px;
 }
 
 /* Track */
 .scrollable::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 /* Thumb */
 .scrollable::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.25);
-  border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
 }
 
 /* Hover */
 .scrollable::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-.dropdownMenu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-
-  background: #222;
-  border: 1px solid #333;
-  border-radius: 6px;
-  min-width: 120px;
-  padding: 4px 0;
-  z-index: 1000;
-}
-
-.dropdownMenu button {
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 8px 12px;
-  color: white;
-  text-align: left;
-  cursor: pointer;
-}
-
-.dropdownMenu button:hover {
-  background: #333;
+    background-color: rgba(255, 255, 255, 0.4);
 }
 
 .menuContainer {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
-.kebabButton {
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
+
+
+/*Text Classes ------------------*/
+
+h4 {
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
-.flex {
-  display: flex;
+p {
+    margin: 0;
 }
 
 .text-white {
-  color: white;
+    color: white;
 }
 
 .text-light {
-  color: rgba(255,255,255,.4)
-}
-
-.child-hover-underline > * {
-  text-decoration: underline;
-}
-
-.mb-0 {
-  margin-bottom: 0;
-}
-
-.mb-quarter {
-  margin-bottom: .25rem;
-}
-
-.mb-1 {
-  margin-bottom: 1rem;
+    color: rgba(255, 255, 255, .4)
 }
 
 .text-left {
-  text-align: left;
+    text-align: left;
 }
 
+/*-------------------------------*/
+
+.child-hover-underline > * {
+    text-decoration: underline;
+}
+
+
+.x-icon {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+/*Margin Classes ---------------*/
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-quarter {
+    margin-bottom: .25rem;
+}
+
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+/*Padding Classes ---------------*/
+
 .p-small {
-  font-size: 10px;
+    font-size: 10px;
 }
 
 .p-med {
-  font-size: 15px;
+    font-size: 15px;
 }
+

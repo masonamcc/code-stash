@@ -16,7 +16,7 @@
   "app": {
     "windows": [
       {
-        "title": "DevStash",
+        "title": "CodeStash",
         "width": 900,
         "height": 720,
         "resizable": false,

@@ -1,9 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import pkg from "../package.json"
 import {invoke} from "@tauri-apps/api/core";
-import masonCodeIcon from './assets/icons/mason-code-icon.png'
-
 import {
     writeTextFile,
     readTextFile,
@@ -15,15 +12,14 @@ import {
     remove,
     copyFile,
 } from "@tauri-apps/plugin-fs";
-
 import {appDataDir, basename, join} from "@tauri-apps/api/path";
 import {useEffect, useState} from "react";
 
-import threeDots from "./assets/icons/three-dots-icon.png"
+// Import custom assets
 import xIcon from "./assets/icons/x-icon.png"
-import appIcon from "./assets/codeBoardIcon.png"
 import backArrow from "./assets/icons/back-arrow-icon.png"
 import devStashIcon from "./assets/icons/dev-stash-icon.png"
+import masonCodeIcon from './assets/icons/mason-code-icon.png'
 
 function App() {
 
@@ -154,14 +150,6 @@ function App() {
         return dir;
     }
 
-    async function callGreet() {
-        console.log("Is Tauri?", window.__TAURI__);
-        console.log("BUTTON CLICKED");
-        const response = await invoke("greet", {name: "Mason"});
-        console.log("Response from Rust:", response);
-    }
-
-
     async function listFoldersAndFiles() {
         const dir = await ensureAppDir();
 
@@ -202,7 +190,6 @@ function App() {
         return results;
     }
 
-
     // Saving new code
     async function saveCode() {
 
@@ -228,7 +215,6 @@ function App() {
         setFileName("");
         await listFoldersAndFiles()
     }
-
 
     async function createFolder() {
         console.log("Creating folder", folderName);
@@ -390,10 +376,9 @@ function App() {
                     <div>
                         <div style={{display: 'flex', alignItems: 'center', gap: '.5rem', marginBottom: '1rem'}}>
                             <img src={devStashIcon} width={'50px'}/>
-                            <h1 style={{margin: '0', fontWeight: '400'}}>DevStash</h1>
+                            <h1 style={{margin: '0', fontWeight: '400'}}>CodeStash</h1>
                         </div>
 
-                        <h3 className={'text-left'} style={{fontWeight: 300}}>Your personal code vault</h3>
 
                         <div>
 
@@ -443,7 +428,7 @@ function App() {
                                                     <img
                                                         src={xIcon}
                                                         width="15"
-                                                        className={"kebabButton"}
+                                                        className={"x-icon"}
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             removeFolder(item.path);
@@ -473,7 +458,7 @@ function App() {
                                                             <img
                                                                 src={xIcon}
                                                                 width="15"
-                                                                className={"kebabButton"}
+                                                                className={"x-icon"}
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
                                                                     removeFile(item.path);
@@ -503,7 +488,7 @@ function App() {
                                                 <img
                                                     src={xIcon}
                                                     width="15"
-                                                    className={"kebabButton"}
+                                                    className={"x-icon"}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         removeFile(item.path);
