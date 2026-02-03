@@ -1,40 +1,28 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "CodeStash",
-  "version": "1.0.904",
+  "version": "1.0.905",
   "identifier": "CodeStash",
 
   "build": {
     "frontendDist": "../build",
     "devUrl": "http://localhost:3000"
   },
+
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://github.com/masonamcc/code-stash/releases/latest"
+        "https://github.com/masonamcc/code-stash/releases/latest/download/latest.json"
       ],
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg2OURDMzE1OTBEMjY4NUUKUldSZWFOS1FGY09kaHZhcGllSi9uWnZxS1ZXU2dYR1FGaWZGQm03NVFDcVNmbWZWOFI0bEJpQ0MK"
-    }
-  },
-  "app": {
-    "windows": [
-      {
-        "title": "CodeStash",
-        "width": 900,
-        "height": 720,
-        "resizable": false,
-        "fullscreen": false
-      }
-    ],
-    "security": {
-      "csp": null
+      "pubkey": "YOUR_PUBKEY_HERE"
     }
   },
 
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/code-stash-icon.png",
       "icons/128x128.png",
