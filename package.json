@@ -1,6 +1,6 @@
 {
   "name": "CodeStash",
-  "version": "1.0.907",
+  "version": "1.0.908",
   "private": true,
   "dependencies": {
     "@tauri-apps/api": "^2.9.1",

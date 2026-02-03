@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "CodeStash",
-  "version": "1.0.907",
+  "version": "1.0.908",
   "identifier": "CodeStash",
 
   "build": {
@@ -15,7 +15,7 @@
         "https://github.com/masonamcc/code-stash/releases/latest/download/latest.json"
       ],
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg1QjgxQTE3NThERUQwMjAKUldRZzBONVlGeHE0aGFtL0hjT3QwMENTS1MvbHdIMHpwSHZBTkVDSUVrZmVMM0YrT01Jb3M0cEcK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDU4QzcwMkI2MDgwRjQ2NzkKUldSNVJnOEl0Z0xIV0ZWVGw2Y2gzemVFZHo3dDkwbEtZcjRwbzEwbUxCTG5YSUlQbWJlT29yN3kK"
     }
   },
 
