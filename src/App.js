@@ -133,12 +133,14 @@ function App() {
         await listBackedUpFiles()
     }
 
+    // Copies code to the clipboard
     function copyCode() {
         navigator.clipboard.writeText(code);
         setCopyText('Copied')
         setTimeout(() => setCopyText('Copy'), 2000)
     }
 
+    // Matches the file extension to an icon
     function getFileIcon(fileName) {
         const dotIndex = fileName.lastIndexOf(".");
         if (dotIndex === -1) return DEFAULT_FILE_ICON;
@@ -147,6 +149,7 @@ function App() {
         return FILE_ICONS[ext] ?? DEFAULT_FILE_ICON;
     }
 
+    // Ensures the app directory exists
     async function ensureAppDir() {
         const dir = await appDataDir();
 
@@ -158,12 +161,14 @@ function App() {
         return dir;
     }
 
+    // Lists all files and folders in the app directory
     async function listFoldersAndFiles() {
         const dir = await ensureAppDir();
 
         setDir(await readTree(dir))
     }
 
+    // Reads the contents of a directory recursively
     async function readTree(dir) {
         const entries = await readDir(dir);
         const results = [];
@@ -224,6 +229,7 @@ function App() {
         await listFoldersAndFiles()
     }
 
+    // Creates a folder with the name specified in the input
     async function createFolder() {
         console.log("Creating folder", folderName);
         const base = await ensureAppDir();
@@ -241,18 +247,7 @@ function App() {
         listFoldersAndFiles()
     }
 
-    async function loadDirectory(path) {
-        const items = await readDir(path);
-
-        // Keep OS ordering
-        return items.map((entry) => ({
-            name: entry.name,
-            isDir: entry.isDir === true,
-            isFile: entry.isFile === true,
-            path: entry.path,
-        }));
-    }
-
+    // Reads all files in a directory recursively
     async function readAllFilesRecursive(dir) {
         const entries = await readDir(dir);
         const files = [];
@@ -279,6 +274,7 @@ function App() {
         return files;
     }
 
+    // Loads a single file from the app directory
     async function loadFile(fileName) {
         if (view !== 'code') setView('code')
         const dir = await ensureAppDir();
@@ -288,6 +284,7 @@ function App() {
         setFileName(fileToLoad.name);
     }
 
+    // Loads all files from the app directory
     async function loadAllFiles() {
         try {
             const dir = await ensureAppDir();
@@ -298,11 +295,13 @@ function App() {
         }
     }
 
+    // Deletes a folder and everything in it
     async function removeFolder(path) {
         await remove(path, {recursive: true});
         await listFoldersAndFiles();
     }
 
+    // Removes a single file and sends it to the backup folder
     async function removeFile(file) {
         setBackedUpFiles((prev) =>
             prev.filter((file) => file.path !== file.path)
@@ -337,12 +336,14 @@ function App() {
         return "File removed";
     }
 
+    // Permanently deletes a file from the backup folder
     async function permRemoveFile(path) {
         await remove(path, {recursive: true});
         await showBackedUpFiles()
         return "File removed";
     }
 
+    // Shows the files inside of a folder
     function toggleFolder(name) {
         setOpenFolders(prev => ({
             ...prev,
@@ -350,21 +351,15 @@ function App() {
         }));
     }
 
+    // Gets all the files in the backup folder
     async function showBackedUpFiles() {
         const dir = await ensureAppDir();
         const backupDir = await join(dir, "backup");
         if (!(await exists(backupDir))) {
             await mkdir(backupDir, {recursive: true});
-
         }
-        console.log(
-            "backup dir:",
-            backupDir
-        )
         const files = await readAllFilesRecursive(backupDir);
         setBackedUpFiles(files)
-        console.log("backed up files:", files)
-        // return files;
     }
 
     async function listBackedUpFiles() {
@@ -412,7 +407,6 @@ function App() {
                                     onChange={(e) => setFolderName(e.target.value)}
                                 />
                                 <button style={{
-                                    // background: '#141414',
                                     color: 'white',
                                     borderLeft: '0',
                                     border: '1px solid rgba(255,255,255,.2)'
@@ -428,7 +422,6 @@ function App() {
                                             <>
                                                 <div onClick={() => toggleFolder(item.name)}
                                                      className="fileListing"
-
                                                 >
                                                     <div>
                                                         📁 {item.name}<br/>
@@ -546,8 +539,7 @@ function App() {
 
                         <div style={{display: 'flex', justifyContent: 'start', alignItems: 'center', gap: '.5rem'}}>
                             {/*<img style={{opacity: '20%'}} src={masonCodeIcon} width={'40px'}/>*/}
-                            <p className={'faint-text text-left'}></p>
-                            <p className={'faint-text text-left'}>| Version {pkg.version}</p>
+                            <p className={'faint-text text-left'}>Version {pkg.version}</p>
                         </div>
 
                     </div>
