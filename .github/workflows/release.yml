@@ -19,6 +19,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
 
       - run: npm ci
+        working-directory: .
+
 
       - uses: tauri-apps/tauri-action@v0
         with:
