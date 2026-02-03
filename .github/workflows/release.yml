@@ -26,17 +26,14 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      # 3️⃣ Build + release Tauri app (NO Node involvement)
+      # 3️⃣ Build + release Tauri app
       - uses: tauri-apps/tauri-action@v0
         with:
+          projectPath: src-tauri
+          distPath: ../build
           tagName: ${{ github.ref_name }}
           releaseName: CodeStash ${{ github.ref_name }}
           releaseBody: "Automated release"
-
-          # 👇 CRITICAL
-          distPath: ../build
-          tauriScript: npm
-
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
