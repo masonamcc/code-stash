@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "CodeStash",
-  "version": "1.0.902",
+  "version": "1.0.903",
   "identifier": "CodeStash",
 
   "build": {
@@ -11,7 +11,7 @@
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://github.com/masonamcc/code-stash/releases/latest/download/latest.json"
+        "https://github.com/masonamcc/code-stash/releases/latest"
       ],
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg2OURDMzE1OTBEMjY4NUUKUldSZWFOS1FGY09kaHZhcGllSi9uWnZxS1ZXU2dYR1FGaWZGQm03NVFDcVNmbWZWOFI0bEJpQ0MK"
