@@ -378,8 +378,17 @@ function App() {
 
         loadAllFiles()
 
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        const run = async () => {
+            await checkForUpdates()
+        }
+
+        run()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className="App">
