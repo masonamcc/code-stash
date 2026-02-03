@@ -1,6 +1,7 @@
 import "./App.css";
 import pkg from "../package.json"
 import { check } from "@tauri-apps/plugin-updater";
+import { relaunch } from "@tauri-apps/plugin-process";
 import {
     writeTextFile,
     mkdir,
@@ -13,6 +14,7 @@ import {
 import {appDataDir, basename, join} from "@tauri-apps/api/path";
 import {useEffect, useState} from "react";
 
+
 // Import custom assets
 import xIcon from "./assets/icons/x-icon.png"
 import backArrow from "./assets/icons/back-arrow-icon.png"
@@ -21,11 +23,21 @@ import copyIcon from "./assets/icons/copy-icon.png"
 
 function App() {
 
-    async function checkForUpdates() {
-        const update = await check();
-        if (update?.available) {
-            await update.downloadAndInstall();
+    export async function checkForUpdates() {
+        const update = await check();      // Update | null
+
+        if (!update) {
+            console.log("No update available");
+            return;
         }
+
+        console.log("Update found:", update.version);
+
+        // This downloads the installer + installs it
+        await update.downloadAndInstall();
+
+        // Relaunch into the new version
+        await relaunch();
     }
 
     const DEFAULT_FILE_ICON = "📄";
@@ -383,11 +395,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const run = async () => {
-            await checkForUpdates()
-        }
-
-        run()
+        checkForUpdates().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
