@@ -18,15 +18,26 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
 
-      - run: npm ci
-        working-directory: .
+      # 1️⃣ Install frontend deps
+      - name: Install frontend dependencies
+        run: npm ci
 
+      # 2️⃣ Build frontend
+      - name: Build frontend
+        run: npm run build
 
+      # 3️⃣ Build + release Tauri app (NO Node involvement)
       - uses: tauri-apps/tauri-action@v0
         with:
           tagName: ${{ github.ref_name }}
           releaseName: CodeStash ${{ github.ref_name }}
           releaseBody: "Automated release"
+
+          # 👇 CRITICAL
+          frontendDist: ../build
+          beforeBuildCommand: ""
+          beforeDevCommand: ""
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
