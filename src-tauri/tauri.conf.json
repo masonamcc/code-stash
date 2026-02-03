@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "excalibur",
-  "version": "0.1.0",
-  "identifier": "com.example.tauri",
+  "productName": "CodeStash",
+  "version": "1.0.0",
+  "identifier": "CodeStash",
 
   "build": {
     "frontendDist": "../build",
@@ -32,7 +32,7 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/dev-stash-favicon.png",
+      "icons/code-stash-icon.png",
       "icons/128x128.png",
       "icons/128x128@2x.png",
       "icons/icon.icns",

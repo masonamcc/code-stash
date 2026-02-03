@@ -18,7 +18,8 @@ import {useEffect, useState} from "react";
 // Import custom assets
 import xIcon from "./assets/icons/x-icon.png"
 import backArrow from "./assets/icons/back-arrow-icon.png"
-import devStashIcon from "./assets/icons/dev-stash-icon.png"
+import devStashIcon from "./assets/icons/code-stash-icon.png"
+import copyIcon from "./assets/icons/copy-icon.png"
 import masonCodeIcon from './assets/icons/mason-code-icon.png'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
     const [fileExtension, setFileExtension] = useState('');
     const [view, setView] = useState('code');
     const [backedUpFiles, setBackedUpFiles] = useState([])
+    const [copyText, setCopyText] = useState('Copy')
 
     const extensions = [
         ".txt", ".md", ".json", ".yaml", ".yml", ".toml", ".js", ".ts", ".jsx", ".tsx",
@@ -129,6 +131,12 @@ function App() {
         // Refresh the directory listing
         await listFoldersAndFiles()
         await listBackedUpFiles()
+    }
+
+    function copyCode() {
+        navigator.clipboard.writeText(code);
+        setCopyText('Copied')
+        setTimeout(() => setCopyText('Copy'), 2000)
     }
 
     function getFileIcon(fileName) {
@@ -228,6 +236,8 @@ function App() {
         console.log("Creating folder", path);
         await mkdir(path, {recursive: true});
         console.log("Folder created");
+        // Clear the New Folder Input
+        setFolderName("")
         listFoldersAndFiles()
     }
 
@@ -293,9 +303,9 @@ function App() {
         await listFoldersAndFiles();
     }
 
-    async function removeFile(path) {
+    async function removeFile(file) {
         setBackedUpFiles((prev) =>
-            prev.filter((file) => file.path !== path)
+            prev.filter((file) => file.path !== file.path)
         );
 
         // Write file to back-up folder
@@ -305,21 +315,23 @@ function App() {
         // If the back-up folder doesn't exist, create it'
         if (!(await exists(backupDir))) {
             await mkdir(backupDir, {recursive: true});
+
         }
 
-        if (path.isDirectory) {
+        if (file.isDirectory) {
             console.log('This is a folder')
             return
         }
 
-        const fileName = await basename(path)
+        const fileName = await basename(file.name)
+        console.log('fileName:', fileName)
         const backupPath = await join(backupDir, fileName)
 
         // Copy before delete
-        await copyFile(path, backupPath);
+        await copyFile(file.path, backupPath);
 
         // Remove original
-        await remove(path);
+        await remove(file.path);
         await showBackedUpFiles()
         await listFoldersAndFiles();
         return "File removed";
@@ -341,6 +353,14 @@ function App() {
     async function showBackedUpFiles() {
         const dir = await ensureAppDir();
         const backupDir = await join(dir, "backup");
+        if (!(await exists(backupDir))) {
+            await mkdir(backupDir, {recursive: true});
+
+        }
+        console.log(
+            "backup dir:",
+            backupDir
+        )
         const files = await readAllFilesRecursive(backupDir);
         setBackedUpFiles(files)
         console.log("backed up files:", files)
@@ -357,7 +377,6 @@ function App() {
 
     useEffect(() => {
 
-
         listFoldersAndFiles().then((folders) => console.log("folders:", folders))
 
         loadAllFiles().then((data) => {
@@ -365,9 +384,7 @@ function App() {
             setAllFiles(data)
         });
 
-
     }, []);
-
 
     return (
         <div className="App">
@@ -376,7 +393,10 @@ function App() {
                     <div>
                         <div style={{display: 'flex', alignItems: 'center', gap: '.5rem', marginBottom: '1rem'}}>
                             <img src={devStashIcon} width={'50px'}/>
-                            <h1 style={{margin: '0', fontWeight: '400'}}>CodeStash</h1>
+                            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'start'}}>
+                                <h1 style={{margin: '0', fontWeight: '400'}}>CodeStash</h1>
+                            </div>
+
                         </div>
 
 
@@ -392,11 +412,11 @@ function App() {
                                     onChange={(e) => setFolderName(e.target.value)}
                                 />
                                 <button style={{
-                                    background: '#141414',
+                                    // background: '#141414',
                                     color: 'white',
                                     borderLeft: '0',
                                     border: '1px solid rgba(255,255,255,.2)'
-                                }} className={'dark'} onClick={createFolder}>Add
+                                }} className={'dark-button'} onClick={createFolder}>Add
                                 </button>
                             </div>
 
@@ -411,7 +431,7 @@ function App() {
 
                                                 >
                                                     <div>
-                                                        <strong>📁 {item.name}</strong> <br/>
+                                                        📁 {item.name}<br/>
                                                         {item.children?.length > 0 && (
                                                             <p
                                                                 style={{
@@ -461,7 +481,7 @@ function App() {
                                                                 className={"x-icon"}
                                                                 onClick={(e) => {
                                                                     e.stopPropagation();
-                                                                    removeFile(item.path);
+                                                                    removeFile(child);
                                                                 }}
                                                             />
                                                         </div>
@@ -491,7 +511,7 @@ function App() {
                                                     className={"x-icon"}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        removeFile(item.path);
+                                                        removeFile(item);
                                                     }}
                                                 />
 
@@ -525,8 +545,9 @@ function App() {
                         }}>Recover Deleted Files</p>
 
                         <div style={{display: 'flex', justifyContent: 'start', alignItems: 'center', gap: '.5rem'}}>
-                            <img style={{opacity: '20%'}} src={masonCodeIcon} width={'40px'}/>
-                            <p style={{fontSize: '12px', color: 'rgba(255, 255, 255, .2)'}}>Version {pkg.version}</p>
+                            {/*<img style={{opacity: '20%'}} src={masonCodeIcon} width={'40px'}/>*/}
+                            <p className={'faint-text text-left'}></p>
+                            <p className={'faint-text text-left'}>| Version {pkg.version}</p>
                         </div>
 
                     </div>
@@ -548,6 +569,12 @@ function App() {
                              style={{height: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem'}}>
 
                             <div className={'span-2-col'} style={{color: 'white', textAlign: 'left'}}>
+
+                                <div onClick={copyCode} className={'flex gap-quarter mb-1'} style={{alignItems: 'center', cursor: 'pointer'}}>
+                                    <img src={copyIcon} width={'20px'} onClick={copyCode}/>
+                                    <p value={copyText} style={{fontSize: '14px'}}>{copyText}</p>
+                                </div>
+
                                 <p className={'text-left mb-quarter'}>Name your code</p>
                                 <div className={'inputWithDropdown mb-1'}>
                                     <input className={'input'} value={fileName}
@@ -557,7 +584,7 @@ function App() {
                                            }}
                                            placeholder={'Name'}/>
 
-                                    <select className={'select'}
+                                    <select
                                             value={fileExtension}
                                             onChange={(e) => {
                                                 console.log(e.target.value)

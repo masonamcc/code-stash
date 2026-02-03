@@ -8,7 +8,7 @@
 .App,
 .App * {
     text-align: center;
-    font-family: "Helvetica",
+    font-family:"Helvetica",
     "Segoe UI",
     Roboto,
     Arial,
@@ -52,7 +52,7 @@
 }
 
 .menu {
-    background: #191818;
+    background: #000000;
     color: white;
     width: 300px;
     padding: 1rem;
@@ -106,7 +106,7 @@
 }
 
 .fileListing:hover {
-    background: rgba(255, 255, 255, .04);
+    background: rgba(255, 255, 255, .1);
 
 }
 
@@ -128,9 +128,10 @@ button {
     border: 0;
     width: 200px;
     cursor: pointer;
-    background: #ff8906;
+    background: #f55541;
+    border-radius: .2rem;
     /*border-color: #e6916d;*/
-    color: #09121d;
+    color: white;
     transition: background .15s ease-in-out, color .15s ease-in-out;
 }
 
@@ -154,7 +155,7 @@ button {
 
 .dark {
     background: #222122;
-
+    color: white;
 }
 
 /*Input and Button/Dropdown Classes*/
@@ -172,7 +173,7 @@ button {
     border: 0;
     border-radius: .25rem 0 0 .25rem;
     padding: .5rem;
-    text-align: left
+    text-align: left;
 }
 
 .inputWithButton button,
@@ -180,15 +181,22 @@ button {
     flex: .2;
     white-space: nowrap;
     border-radius: 0 .25rem .25rem 0;
-    border: 0;
     transition: background .15s ease-in-out;
-    background: #d5d5d5;
+    background: #141414;
+    /*background: red;*/
+    color: white;
+    cursor: pointer;
+
 }
 
-.inputWithButton button:hover,
-.inputWithDropdown select:hover {
-    background: #ff8906;
+.inputWithButton button:hover {
+    background: #f55541;
 }
+
+.inputWithDropdown select:hover {
+
+}
+
 
 .input {
     flex: 1;
@@ -206,6 +214,14 @@ button {
     padding: .5rem;
     display: flex;
     width: 100%;
+}
+
+.gap-quarter {
+    gap: .25rem;
+}
+
+.gap-half {
+    gap: .5rem;
 }
 
 .gap1 {
@@ -271,6 +287,7 @@ h4 {
 
 p {
     margin: 0;
+    text-align: left;
 }
 
 .text-white {
@@ -283,6 +300,11 @@ p {
 
 .text-left {
     text-align: left;
+}
+
+.faint-text {
+    opacity: .25;
+    font-size: 12px;
 }
 
 /*-------------------------------*/
@@ -309,6 +331,9 @@ p {
     margin-bottom: .25rem;
 }
 
+.mb-half {
+    margin-bottom: .5rem;
+}
 
 .mb-1 {
     margin-bottom: 1rem;
