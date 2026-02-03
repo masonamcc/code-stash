@@ -23,7 +23,7 @@ import copyIcon from "./assets/icons/copy-icon.png"
 
 function App() {
 
-    export async function checkForUpdates() {
+    async function checkForUpdates() {
         const update = await check();      // Update | null
 
         if (!update) {
