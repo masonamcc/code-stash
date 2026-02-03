@@ -35,6 +35,7 @@ jobs:
 
           # 👇 CRITICAL
           distPath: ../build
+          tauriScript: npm
 
 
         env:
