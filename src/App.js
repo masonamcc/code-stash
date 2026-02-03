@@ -3,8 +3,6 @@ import pkg from "../package.json"
 import { check } from "@tauri-apps/plugin-updater";
 import {
     writeTextFile,
-    readTextFile,
-    open,
     mkdir,
     exists,
     readDir,
@@ -20,7 +18,6 @@ import xIcon from "./assets/icons/x-icon.png"
 import backArrow from "./assets/icons/back-arrow-icon.png"
 import devStashIcon from "./assets/icons/code-stash-icon.png"
 import copyIcon from "./assets/icons/copy-icon.png"
-import masonCodeIcon from './assets/icons/mason-code-icon.png'
 
 function App() {
 
@@ -35,13 +32,11 @@ function App() {
 
     const [code, setCode] = useState("");
     const [fileName, setFileName] = useState("");
-    const [allFiles, setAllFiles] = useState([])
     const [dir, setDir] = useState(null);
     const [openFolders, setOpenFolders] = useState({});
     const [folderName, setFolderName] = useState("");
     const [allDirectories, setAllDirectories] = useState([])
     const [folderToSaveTo, setFolderToSaveTo] = useState('');
-    const [confirmationMessage, setConfirmationMessage] = useState('');
     const [fileExtension, setFileExtension] = useState('');
     const [view, setView] = useState('code');
     const [backedUpFiles, setBackedUpFiles] = useState([])
@@ -379,12 +374,10 @@ function App() {
 
     useEffect(() => {
 
-        listFoldersAndFiles().then((folders) => console.log("folders:", folders))
+        listFoldersAndFiles()
 
-        loadAllFiles().then((data) => {
-            console.log("files:", data);
-            setAllFiles(data)
-        });
+        loadAllFiles()
+
 
     }, []);
 
@@ -394,7 +387,7 @@ function App() {
                 <div className={'menu'}>
                     <div>
                         <div style={{display: 'flex', alignItems: 'center', gap: '.5rem', marginBottom: '1rem'}}>
-                            <img src={devStashIcon} width={'50px'}/>
+                            <img alt={''} src={devStashIcon} width={'50px'}/>
                             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'start'}}>
                                 <h1 style={{margin: '0', fontWeight: '400'}}>CodeStash</h1>
                             </div>
@@ -446,6 +439,7 @@ function App() {
                                                         )}
                                                     </div>
                                                     <img
+                                                        alt={''}
                                                         src={xIcon}
                                                         width="15"
                                                         className={"x-icon"}
@@ -476,6 +470,7 @@ function App() {
                                                                 {getFileIcon(child.name)} {child.name}
                                                             </p>
                                                             <img
+                                                                alt={''}
                                                                 src={xIcon}
                                                                 width="15"
                                                                 className={"x-icon"}
@@ -506,6 +501,7 @@ function App() {
                                                 </p>
 
                                                 <img
+                                                    alt={''}
                                                     src={xIcon}
                                                     width="15"
                                                     className={"x-icon"}
@@ -570,7 +566,7 @@ function App() {
                             <div className={'span-2-col'} style={{color: 'white', textAlign: 'left'}}>
 
                                 <div onClick={copyCode} className={'flex gap-quarter mb-1'} style={{alignItems: 'center', cursor: 'pointer'}}>
-                                    <img src={copyIcon} width={'20px'} onClick={copyCode}/>
+                                    <img alt={''} src={copyIcon} width={'20px'} onClick={copyCode}/>
                                     <p value={copyText} style={{fontSize: '14px'}}>{copyText}</p>
                                 </div>
 
@@ -636,7 +632,7 @@ function App() {
                             gap: '.5rem',
                             alignItems: 'center',
                             cursor: 'pointer'
-                        }} onClick={() => setView('code')}><img src={backArrow} width={"15px"}/><p
+                        }} onClick={() => setView('code')}><img alt={''} src={backArrow} width={"15px"}/><p
                             style={{fontSize: '1rem'}}>Back</p></div>
                         <div className={'scrollable'} style={{marginTop: '1rem'}}>
                             {backedUpFiles.length > 0 ? (
