@@ -1,6 +1,6 @@
 import "./App.css";
 import pkg from "../package.json"
-import {invoke} from "@tauri-apps/api/core";
+import { check } from "@tauri-apps/plugin-updater";
 import {
     writeTextFile,
     readTextFile,
@@ -23,6 +23,13 @@ import copyIcon from "./assets/icons/copy-icon.png"
 import masonCodeIcon from './assets/icons/mason-code-icon.png'
 
 function App() {
+
+    async function checkForUpdates() {
+        const update = await check();
+        if (update?.available) {
+            await update.downloadAndInstall();
+        }
+    }
 
     const DEFAULT_FILE_ICON = "📄";
 
