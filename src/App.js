@@ -305,8 +305,9 @@ function App() {
 
     // Removes a single file and sends it to the backup folder
     async function removeFile(file) {
+        const path = file.path
         setBackedUpFiles((prev) =>
-            prev.filter((file) => file.path !== file.path)
+            prev.filter((file) => file.path !== path)
         );
 
         // Write file to back-up folder
