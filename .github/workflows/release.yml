@@ -20,7 +20,7 @@ jobs:
 
       # 1️⃣ Install frontend deps
       - name: Install frontend dependencies
-        run: npm ci
+        run: npm install
 
       # 2️⃣ Build frontend
       - name: Build frontend
