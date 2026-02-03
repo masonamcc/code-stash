@@ -34,9 +34,8 @@ jobs:
           releaseBody: "Automated release"
 
           # 👇 CRITICAL
-          frontendDist: ../build
-          beforeBuildCommand: ""
-          beforeDevCommand: ""
+          distPath: ../build
+
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
