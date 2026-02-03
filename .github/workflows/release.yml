@@ -5,6 +5,9 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write   # 👈 THIS is the missing piece
+
 jobs:
   build-windows:
     runs-on: windows-latest
