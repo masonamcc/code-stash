@@ -2,15 +2,20 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "enables the default permissions",
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "core:default",
-    "fs:allow-appdata-write",
+
     "fs:allow-appdata-read",
-    "fs:allow-remove",
     "fs:allow-appdata-read-recursive",
-    "fs:allow-appdata-write-recursive"
+    "fs:allow-appdata-write",
+    "fs:allow-appdata-write-recursive",
+    "fs:allow-remove",
+
+    "updater:default",
+    "updater:allow-check",
+    "updater:allow-download-and-install",
+
+    "process:default"
   ]
 }

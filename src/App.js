@@ -13,6 +13,7 @@ import {
 } from "@tauri-apps/plugin-fs";
 import {appDataDir, basename, join} from "@tauri-apps/api/path";
 import {useEffect, useState} from "react";
+import { getVersion } from "@tauri-apps/api/app";
 
 
 // Import custom assets
@@ -398,6 +399,14 @@ function App() {
         checkForUpdates().catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        (async () => {
+            console.log("Installed version:", await getVersion());
+            await checkForUpdates();
+        })().catch(console.error);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="App">
