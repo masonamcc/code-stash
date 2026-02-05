@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "CodeStash",
-  "version": "1.0.915",
+  "version": "1.0.916",
   "identifier": "com.masonamcc.codestash",
 
   "build": {
