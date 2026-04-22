@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# CodeStash
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A lightweight desktop app for saving and organizing code snippets locally. Built with Tauri and React.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Save snippets** — paste code, give it a name and file extension, and save it to your local stash
+- **Organize with folders** — create folders to group related snippets
+- **40+ file types** — recognized extensions each get a unique icon (.js, .py, .rs, .go, and more)
+- **One-click copy** — copy any snippet to your clipboard instantly
+- **Soft delete with recovery** — deleted files go to a backup folder; restore or permanently remove them from the Recover view
+- **Auto-updates** — the app checks for and installs new releases automatically on launch
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [Tauri v2](https://tauri.app/) — Rust-based desktop shell
+- [React 19](https://react.dev/) — UI
+- Tauri plugins: `plugin-fs`, `plugin-updater`, `plugin-process`
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Development
 
-### `npm test`
+**Prerequisites:** Node.js, Rust, and the [Tauri CLI prerequisites](https://tauri.app/start/prerequisites/) for your platform.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+# Install dependencies
+npm install
 
-### `npm run build`
+# Run in development mode (hot reload)
+npm run dev
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Build the desktop app
+npm run build && npx tauri build
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The dev server runs at `http://localhost:3000`. Tauri wraps it in a native window automatically.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Releases
 
-### `npm run eject`
+Builds are distributed as signed installers via GitHub Releases. The app auto-updates by polling:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+https://github.com/masonamcc/code-stash/releases/latest/download/latest.json
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Current version: `1.0.916`
