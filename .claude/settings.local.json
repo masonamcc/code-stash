@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p D:/Code/Mason/src/assets/fonts)",
+      "Bash(cp D:/Code/code-stash/src/assets/fonts/poppins-regular-webfont.woff2 D:/Code/Mason/src/assets/fonts/)",
+      "Bash(npm run *)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist *)",
+      "PowerShell(Stop-Process *)"
+    ]
+  }
+}
